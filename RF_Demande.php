@@ -16,17 +16,19 @@
                 <th>Nom Etudiant</th>
                 <th>Classe</th>
                 <th>Salle</th>
-                <th>Date-Heure</th>
+                <th>Date</th>
+                <th>Heure</th>
                 <th>Commentaire</th>
                 <th>Décision</th>
             </tr>
             
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>BON Killian</td>
+                <td>SIO</td>
+                <td>Fu24</td>
+                <td>22/11/2019</td>
+                <td>13h-14h</td>
+                <td>Je souhaite reserve</td>
                 <td>
                     <form action="/action_page.php">
                         <input type="checkbox" name="valider" value="Valider"> Valider<br>

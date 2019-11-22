@@ -12,7 +12,6 @@
         <h1>ACCUEIL</h1>
         
         <form method="post" action="login.php">
-            
             <label for="pseudo">Pseudo : </label><br>
             <input type="text" name="pseudo" id="pseudo" required ><br><br>
                 
