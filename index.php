@@ -12,6 +12,7 @@ and open the template in the editor.
     <body>
         <?php
             echo "ça marche !";
+            echo "je Confirme";
         ?> 
     </body>
 </html>
