@@ -1,12 +1,7 @@
-<!DOCTYPE html>
 
-<html>
-    <head>
-        <title>REFERENT DEMANDES</title>
         <?php
         include_once 'head.php';
         ?>
-    </head>
     
     <body>
         <h1>Demandes de Réservation</h1>

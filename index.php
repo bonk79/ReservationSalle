@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="ShowPassword.js"></script>
 
 <?php
     include_once 'head.php';
@@ -11,7 +8,6 @@
             $pseudo=htmlspecialchars($_POST['pseudo']);
             $password=htmlspecialchars($_POST['password']);
     
-                $db= new PDO(DSN, login, password,$option);
         
                 $statement=$db -> prepare("SELECT * FROM ACCOUNT");
                 $statement -> execute();
@@ -42,29 +38,45 @@
         }
     ?>
     
-    <h1>ACCUEIL</h1>
+    
     <body>
-        <h3>Connectez-vous avec votre identifiant et votre mot de passe :</h3>
         
-        <div class="container">
-    	<div class="row">
-    	    <div class="col-xs-12">
-                <div class="form-wrap">
-        <form method="post" action="">
-            <div class="form-group">
-                <label for="pseudo">Pseudo : </label><br>
-                <input type="text" class="form-control" name="pseudo" id="pseudo" required ><br><br>
+        <br><br><h1 class="text-center" >ACCUEIL</h1><br><br><br><br><br>
+        <main class="login-form">
+            <div class="cotainer">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            
+                            <div class="card-header"><h3>Connectez-vous en inscrivant votre pseudo et votre mot de passe</h3></div>
+                            <div class="card-body">
+                                
+                                <form action="" method="POST">
+                                    <div class="form-group row">
+                                        <label for="pseudo" class="col-md-4 col-form-label text-md-right">Pseudo : </label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="pseudo" class="form-control" name="pseudo">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="password" class="col-md-4 col-form-label text-md-right">Mot de Passe : </label>
+                                        <div class="col-md-6">
+                                            <input type="password" id="password" class="form-control" name="password">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">Se Connecter</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">    
-                <label for="password">Mot de Passe : </label><br>
-                <input type="password" class="form-control" name="password" id="password" required ><br><br>
-            </div>
-            <div class="checkbox">
-                <span class="character-checkbox" onclick="showPassword()"></span>
-                <span class="label">Show password</span>
-            </div>
-                <input type="submit" class="btn btn-primary" value="Login" ><br><br>
-        </form>
-                    </div></div></div></div>
+        </main>
+
+        
     </body>
 </html> 

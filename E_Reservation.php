@@ -1,37 +1,48 @@
-<!DOCTYPE html>
+<?php
+include_once 'head.php';
+?>
 
-<html>
-    <head>
-        <title>ETUDIANT RESERVATION</title>
-        <?php
-        include_once 'head.php';
-        ?>
-    </head>
-    
     <body>
         <h1>Réservation d'une Salle</h1>
+        <div class="row">
+        <div class="col-4 container">
+        <form method="POST" action="">
+            <aside>
+                <h3>Sélectionner une Salle</h3>
+
+                <select>
+                    <?php
+                        $statement=$db -> prepare("SELECT * FROM ROOM");
+                        $statement -> execute();
+
+                        while($row = $statement->fetch()) {
+                            echo "<option name='salle' value='".$row['idRoom']."'>".$row['name']."</option>";
+                        } 
+                    ?>
+                </select>
+
+                <h3>Sélectionner un Créneaux Horaire</h3>
+                <select>
+                    <?php
+                            $statement=$db -> prepare("SELECT * FROM TIMESLOT");
+                            $statement -> execute();
+
+                            while($row = $statement->fetch()) {
+                                echo "<option name='creneaux' value='".$row['idTimeSlot']."'>".$row['start']." - ".$row['end']."</option>";
+                            } 
+                    ?>
+                </select><br><br>
+
+                <label for="message">Justification : </label><br>
+                <input type="text" name="Commentaire" placeholder="OUI" id="message"><br>
+
+                <input type="submit" value="Valider la Réservation">
+            </aside>
+        </form>
+        </div>
         
-        <aside>
-            <h3>Sélectionner une Salle</h3>
-            <select>
-                <option value="Fu22">Fu22</option>
-                <option value="Fu23">Fu23</option>
-                <option value="Fu24">Fu24</option>
-            </select>
-            
-            <h3>Sélectionner un Créneaux Horaire</h3>
-            <select>
-                <option value="14h-15h">14h-15h</option>
-                <option value="15h-16h">15h-16h</option>
-                <option value="16h-17h">16h-17h</option>
-            </select>
-            
-            
-            <label for="message">Justification : </label><br>
-            <textarea rows="5" cols="70" type="text" name="justification" id="justification" required ></textarea><br>
-            <input type="submit" value="Valider la Réservation">
-        </aside>
         
+        <div class="col-8 container">
         <section>
             <h3>Vos Inscriptions</h3>
             
@@ -53,6 +64,8 @@
                 </tr>
             </table>
         </section>
+        </div>
+            </div>
         
     </body>
 </html> 

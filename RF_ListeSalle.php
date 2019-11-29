@@ -1,12 +1,7 @@
-<!DOCTYPE html>
 
-<html>
-    <head>
-        <title>ETUDIANT RESERVATION</title>
         <?php
         include_once 'head.php';
         ?>
-    </head>
     
     <body>
         <h1>Listes des Salles et Classes</h1>
