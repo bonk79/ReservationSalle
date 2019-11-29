@@ -1,7 +1,11 @@
+<!DOCTYPE html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="ShowPassword.js"></script>
+
 <?php
     include_once 'head.php';
     include_once 'bdd.php';
-    
+     
         if(isset($_POST["pseudo"]) && isset($_POST["password"])){
     
             $pseudo=htmlspecialchars($_POST['pseudo']);
@@ -34,24 +38,33 @@
                     }else {
                         echo 'Adresse email erronée';
                     }
-            
                 }
-
         }
     ?>
     
+    <h1>ACCUEIL</h1>
     <body>
-        <h1>ACCUEIL</h1>
+        <h3>Connectez-vous avec votre identifiant et votre mot de passe :</h3>
         
+        <div class="container">
+    	<div class="row">
+    	    <div class="col-xs-12">
+                <div class="form-wrap">
         <form method="post" action="">
-            
-            <label for="pseudo">Pseudo : </label><br>
-            <input type="text" name="pseudo" id="pseudo" required ><br><br>
-                
-            <label for="password">Mot de Passe : </label><br>
-            <input type="password" name="password" id="password" required ><br><br>
-            
-            <input type="submit" value="Login" ><br><br>
+            <div class="form-group">
+                <label for="pseudo">Pseudo : </label><br>
+                <input type="text" class="form-control" name="pseudo" id="pseudo" required ><br><br>
+            </div>
+            <div class="form-group">    
+                <label for="password">Mot de Passe : </label><br>
+                <input type="password" class="form-control" name="password" id="password" required ><br><br>
+            </div>
+            <div class="checkbox">
+                <span class="character-checkbox" onclick="showPassword()"></span>
+                <span class="label">Show password</span>
+            </div>
+                <input type="submit" class="btn btn-primary" value="Login" ><br><br>
         </form>
+                    </div></div></div></div>
     </body>
 </html> 
