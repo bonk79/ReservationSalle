@@ -1,15 +1,19 @@
 <?php
 include_once 'head.php';
+include_once 'bdd.php';
 ?>
 
     <body>
-        <h1>Réservation d'une Salle</h1>
+        
+        
+        <main class="login-form">
         <div class="row">
         <div class="col-4 container">
+            <h1>RESERVATION D'UNE SALLE</h1><br><br><br><br>
         <form method="POST" action="">
             <aside>
-                <h3>Sélectionner une Salle</h3>
-
+                <h3>Sélectionner une Salle</h3><br>
+                
                 <select>
                     <?php
                         $statement=$db -> prepare("SELECT * FROM ROOM");
@@ -19,35 +23,35 @@ include_once 'head.php';
                             echo "<option name='salle' value='".$row['idRoom']."'>".$row['name']."</option>";
                         } 
                     ?>
-                </select><br><br>
+                </select><br><br><br>
 
-                <h3>Sélectionner un Créneaux Horaire</h3>
+                <h3>Sélectionner un Créneaux Horaire</h3><br>
                 <select>
                     <?php
-                            $statement=$db -> prepare("SELECT * FROM TIMESLOT");
-                            $statement -> execute();
+                        $statement=$db -> prepare("SELECT * FROM TIMESLOT");
+                        $statement -> execute();
 
-                            while($row = $statement->fetch()) {
-                                echo "<option name='creneaux' value='".$row['idTimeSlot']."'>".$row['start']." - ".$row['end']."</option>";
-                            } 
+                        while($row = $statement->fetch()) {
+                            echo "<option name='creneaux' value='".$row['idTimeSlot']."'>".$row['start']." - ".$row['end']."</option>";
+                        } 
                     ?>
-                </select><br><br>
+                </select><br><br><br>
                 
-                <div>
-                <h3>Sélectionner une Date</h3>
+                
+                <h3>Sélectionner une Date</h3><br>
+                <select>
                     <?php
-                            $statement=$db -> prepare("SELECT * FROM BOOKING");
-                            $statement -> execute();
-
+                            $dateMin = date('d-m-Y');
+                            $dateMax = mktime(0, 0, 0, date("d")+7,   date("m"),   date("Y"));
+                            echo "<input name='date' type='date' value='".$dateMin."' min='".$dateMin."' max='".$dateMax."'>";
+                            echo $dateMin;
+                            echo $dateMax;
                     ?>
-                    <input type='date' min="2011-08-13" max='2012-06-25' name="the_date"><br><br>
-                    //min : date du jour, max : + 1 semaine
-                    //jjmmaaaa -> aaaammjj
+                </select><br><br><br>
                     
-                </div>
-
+                
                 <label for="message">Justification : </label><br>
-                <input type="text" name="Commentaire" placeholder="OUI" id="message"><br>
+                <input type="text" name="Commentaire" placeholder="OUI" id="message"><br><br><br>
 
                 <input type="submit" value="Valider la Réservation">
                 //return BOOKING
@@ -55,22 +59,26 @@ include_once 'head.php';
         </form>
         </div>
         
-        
-        <div class="col-8 container">
+         
+            
+        <div class="col-6 container">
+            <h1>VOS INSCRIPTION</h1><br><br><br><br>  
         <section>
-            <h3>Vos Inscriptions</h3>
             
-            <table>
+            
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
                 <tr>
-                    <th>Salle</th>
-                    <th>Créneaux Horaire</th>
-                    <th>Date</th>
-                    <th>Responsable</th>
-                    <th>Désinscription</th>
+                    <th scope="col">Salle</th>
+                    <th scope="col">Créneaux Horaire</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Responsable</th>
+                    <th scope="col">Désinscription</th>
                 </tr>
-            
+                </thead>
+                
                 <tr>
-                    <td>Fu23</td>
+                    <td></td>
                     <td>16h-18h</td>
                     <td>22/11/2019</td>
                     <td>Oui</td>
@@ -80,7 +88,9 @@ include_once 'head.php';
         </section>
         </div>
             </div>
-        
+          
+
+        </main>
     </body>
 </html> 
 

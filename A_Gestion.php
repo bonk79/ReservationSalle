@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <title>ADMINISTRATEUR ACCUEIL</title>
-        <?php
+<?php
         include_once 'head.php';
+        include_once 'bdd.php';
         ?>
-    </head>
     
     <body>
         <h1>Gestionnaire</h1><br>

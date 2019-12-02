@@ -1,6 +1,7 @@
 
         <?php
         include_once 'head.php';
+        include_once 'bdd.php';
         ?>
 
     <body>
