@@ -19,7 +19,7 @@ include_once 'head.php';
                             echo "<option name='salle' value='".$row['idRoom']."'>".$row['name']."</option>";
                         } 
                     ?>
-                </select>
+                </select><br><br>
 
                 <h3>Sélectionner un Créneaux Horaire</h3>
                 <select>
@@ -32,11 +32,25 @@ include_once 'head.php';
                             } 
                     ?>
                 </select><br><br>
+                
+                <div>
+                <h3>Sélectionner une Date</h3>
+                    <?php
+                            $statement=$db -> prepare("SELECT * FROM BOOKING");
+                            $statement -> execute();
+
+                    ?>
+                    <input type='date' min="2011-08-13" max='2012-06-25' name="the_date"><br><br>
+                    //min : date du jour, max : + 1 semaine
+                    //jjmmaaaa -> aaaammjj
+                    
+                </div>
 
                 <label for="message">Justification : </label><br>
                 <input type="text" name="Commentaire" placeholder="OUI" id="message"><br>
 
                 <input type="submit" value="Valider la Réservation">
+                //return BOOKING
             </aside>
         </form>
         </div>
