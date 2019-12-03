@@ -1,59 +1,141 @@
-<!DOCTYPE html>
+<?php
 
-<html>
-    <head>
-        <title>ETUDIANT RESERVATION</title>
-        <?php
-        include_once 'head.php';
-        ?>
-    </head>
-    
+include_once 'head.php';
+include_once 'bdd.php';
+
+if($_SESSION['user'] != 1){
+    header('location: index.php');
+}else {
+
+?>
+
     <body>
-        <h1>Réservation d'une Salle</h1>
         
-        <aside>
-            <h3>Sélectionner une Salle</h3>
-            <select>
-                <option value="Fu22">Fu22</option>
-                <option value="Fu23">Fu23</option>
-                <option value="Fu24">Fu24</option>
-            </select>
-            
-            <h3>Sélectionner un Créneaux Horaire</h3>
-            <select>
-                <option value="14h-15h">14h-15h</option>
-                <option value="15h-16h">15h-16h</option>
-                <option value="16h-17h">16h-17h</option>
-            </select>
-            
-            
-            <label for="message">Justification : </label><br>
-            <textarea rows="5" cols="70" type="text" name="justification" id="justification" required ></textarea><br>
-            <input type="submit" value="Valider la Réservation">
-        </aside>
         
+        <main class="login-form">
+        <div class="row">
+        <div class="col-4 container">
+            <br><br><h1>RESERVATION D'UNE SALLE</h1><br><br><br><br>
+        <form method="POST" action="">
+            <aside>
+                <h3>Sélectionner une Salle</h3><br>
+                
+                
+                <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <select class="custom-select" id="inputGroupSelect01">
+                    <?php
+                        $statement=$db -> prepare("SELECT * FROM ROOM");
+                        $statement -> execute();
+
+                        while($row = $statement->fetch()) {
+                            echo "<option name='salle' value='".$row['idRoom']."'>".$row['name']."</option>";
+                        } 
+                    ?>
+                </select><br><br><br>
+                </div>
+                </div>
+
+                <h3>Sélectionner un Créneaux Horaire</h3><br>
+                <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <select class="custom-select" id="inputGroupSelect01">
+                    <?php
+                        $statement=$db -> prepare("SELECT * FROM TIMESLOT");
+                        $statement -> execute();
+
+                        while($row = $statement->fetch()) {
+                            echo "<option name='creneaux' value='".$row['idTimeSlot']."'>".$row['start']." - ".$row['end']."</option>";
+                        } 
+                    ?>
+                </select><br><br><br>
+                </div>
+                </div>
+                
+                <h3>Sélectionner une Date</h3><br>
+                    <?php
+                            $dateMin = date('Y-m-d');
+                            $dateMax = date('Y-m-d', strtotime("+1 week"));
+                            
+                            echo "<input name='date' type='date' value='".$dateMin."' min='".$dateMin."' max='".$dateMax."'>";
+                    ?>
+                <br><br><br>
+                
+                <label for="message">Justification : </label><br>
+                <input type="text" name="Commentaire" placeholder="OUI" id="message"><br><br><br>
+
+                
+                <?php
+                    $statement=$db -> prepare("SELECT * FROM BOOKING"
+                                            . " INNER JOIN ACCESS ON BOOKING.idRoom = ACCESS.idRoom"
+                                            . " INNER JOIN CLASS ON ACCOUNT.idClass = CLASS.idClass");
+                    $statement -> execute();
+                        if ($row['idRoom'] == $row['idClass']){
+                            $row['isAllowed'] = 1;
+                        } else {
+                            $row['isAllowed'] = 0;
+                        }
+                
+                
+                    $statement=$db -> prepare("INSERT INTO BOOKING ('isAllowed', 'isKeyOwner', 'idAccount', 'idTimeSlot', 'idRoom', 'date', 'commentaire')"
+                                            . "VALUES ('".$isAllowed."', '".$isKeyOwner."', '".$account."', '".$timeSlot."' '".$room."', '".$date."', '".$comment."')");
+                    $statement -> execute();
+                    
+                    echo "<input name='valider' type='submit' value='".$db."'>Valider ma réservation";
+                ?>
+            </aside>
+        </form>
+        </div>
+        
+         
+            
+        <div class="col-6 container">
+            <br><br><h1>VOS INSCRIPTION</h1><br><br><br><br>  
         <section>
-            <h3>Vos Inscriptions</h3>
             
-            <table>
-                <tr>
-                    <th>Salle</th>
-                    <th>Créneaux Horaire</th>
-                    <th>Date</th>
-                    <th>Responsable</th>
-                    <th>Désinscription</th>
-                </tr>
             
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-dark">
                 <tr>
-                    <td>Fu23</td>
-                    <td>16h-18h</td>
-                    <td>22/11/2019</td>
-                    <td>Oui</td>
-                    <td><button>Se Désinscrire</button></td>
+                    <th scope="col">Salle</th>
+                    <th scope="col">Créneaux Horaire</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Responsable</th>
+                    <th scope="col">Désinscription</th>
                 </tr>
+                </thead>
+                
+                <?php
+                        $statement=$db -> prepare("SELECT * FROM BOOKING INNER JOIN ROOM ON BOOKING.idBooking = ROOM.idRoom"
+                                            . " INNER JOIN TIMESLOT ON BOOKING.idTimeSlot = TIMESLOT.idTimeSlot");
+                        
+                        $statement -> execute();
+
+                        while($row = $statement->fetch()) {
+                            echo "<tr><td>".$row['name']."</td>";
+                            echo "<td>".$row['start']." - ".$row['end']."</td>";
+                            echo "<td>".$row['date']."</td>";
+                            
+                            if ($row['isKeyOwner'] == 1){
+                                $row['isKeyOwner']="Oui";
+                            } else {
+                                $row['isKeyOwner']="Non";
+                            }
+                            
+                            echo "<td>".$row['isKeyOwner']."</td>";
+                            echo "<td>".'<button type="button" name="desinscrire"> Désinscription'."</td></tr>";
+                        } 
+                ?>
             </table>
         </section>
-        
+        </div>
+            </div>
+          
+
+        </main>
     </body>
 </html> 
 
+<?php
+}
+?>

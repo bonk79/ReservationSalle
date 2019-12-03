@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <title>ADMINISTRATEUR ACCUEIL</title>
-        <?php
+<?php
         include_once 'head.php';
+        include_once 'bdd.php';
+        
+        if($_SESSION['user'] != 3){
+            header('location: index.php');
+        }else {
         ?>
-    </head>
     
     <body>
         <h1>Gestionnaire</h1><br>
@@ -22,3 +21,6 @@
     </body>
 </html> 
 
+<?php
+}
+?>

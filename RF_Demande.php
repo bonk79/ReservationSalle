@@ -2,6 +2,10 @@
         <?php
         include_once 'head.php';
         include_once 'bdd.php';
+        
+        if($_SESSION['user'] != 2){
+            header('location: index.php');
+        }else {
         ?>
     
     <body>
@@ -23,7 +27,9 @@
         
             <?php
                 $statement=$db -> prepare("SELECT * FROM BOOKING INNER JOIN ACCOUNT ON BOOKING.idBooking = ACCOUNT.idAccount"
-                . " INNER JOIN TIMESLOT ON BOOKING.idTimeSlot = TIMESLOT.idTimeSlot INNER JOIN CLASS ON ACCOUNT.idClass = CLASS.idClass INNER JOIN ROOM ON BOOKING.idBooking = ROOM.idRoom ");
+                . " INNER JOIN TIMESLOT ON BOOKING.idTimeSlot = TIMESLOT.idTimeSlot"
+                . " INNER JOIN CLASS ON ACCOUNT.idClass = CLASS.idClass"
+                . " INNER JOIN ROOM ON BOOKING.idBooking = ROOM.idRoom ");
                 $statement -> execute();
                     while($row = $statement->fetch()) {
                         echo "<tr><td>".$row['firstName']." ".$row['lastName']." "."</td>";
@@ -42,3 +48,6 @@
     </body>
 </html> 
 
+<?php
+}
+?>

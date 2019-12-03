@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <title>ETUDIANT RESERVATION</title>
-        <?php
+<?php
         include_once 'head.php';
+        include_once 'bdd.php';
+        
+        if($_SESSION['user'] != 2){
+            header('location: index.php');
+        }else {
         ?>
-    </head>
     
     <body>
         <h1>Listes des Salles et Classes</h1>
@@ -28,3 +27,6 @@
     </body>
 </html> 
 
+<?php
+}
+?>
