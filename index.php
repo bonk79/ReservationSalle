@@ -18,15 +18,15 @@
                         $idAccreditation = $row['idAccreditation'];
                         switch ($idAccreditation) {
                             case 1:
-                                $_SESSION['etudiant']=1;
+                                $_SESSION['user']=1;
                                 header ('location: E_Reservation.php');
                                 break;
                             case 2:
-                                $_SESSION['referent']=2;
+                                $_SESSION['user']=2;
                                 header ('location: RF_Demande.php');
                                 break;
                             case 3:
-                                $_SESSION['admin']=3;
+                                $_SESSION['user']=3;
                                 header ('location: A_Gestion.php');
                                 break;
                         }
@@ -41,7 +41,7 @@
     
     <body>
         
-        <br><br><h1 class="text-center" >ACCUEIL</h1><br><br><br><br><br>
+        <br><br><h1 class="text-center display-1" >ACCUEIL</h1><br><br><br><br><br>
         <main class="login-form">
             <div class="cotainer">
                 <div class="row justify-content-center">
@@ -67,7 +67,7 @@
                                     </div>
 
                                     <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">Se Connecter</button>
+                                        <button type="submit" class="btn btn-primary btn-sm btn-block">Se Connecter</button>
                                     </div>
                                 </form>
                             </div>

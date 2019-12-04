@@ -1,6 +1,12 @@
 <?php
+
 include_once 'head.php';
 include_once 'bdd.php';
+
+if($_SESSION['user'] != 1){
+    header('location: index.php');
+}else {
+
 ?>
 
     <body>
@@ -9,12 +15,15 @@ include_once 'bdd.php';
         <main class="login-form">
         <div class="row">
         <div class="col-4 container">
-            <h1>RESERVATION D'UNE SALLE</h1><br><br><br><br>
+            <br><br><h1 class="text-center display-1" >RESERVATION D'UNE SALLE</h1><br><br><br><br>
         <form method="POST" action="">
             <aside>
                 <h3>Sélectionner une Salle</h3><br>
                 
-                <select>
+                
+                <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <select class="custom-select" id="inputGroupSelect01">
                     <?php
                         $statement=$db -> prepare("SELECT * FROM ROOM");
                         $statement -> execute();
@@ -24,9 +33,13 @@ include_once 'bdd.php';
                         } 
                     ?>
                 </select><br><br><br>
+                </div>
+                </div>
 
                 <h3>Sélectionner un Créneaux Horaire</h3><br>
-                <select>
+                <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <select class="custom-select" id="inputGroupSelect01">
                     <?php
                         $statement=$db -> prepare("SELECT * FROM TIMESLOT");
                         $statement -> execute();
@@ -36,25 +49,40 @@ include_once 'bdd.php';
                         } 
                     ?>
                 </select><br><br><br>
-                
+                </div>
+                </div>
                 
                 <h3>Sélectionner une Date</h3><br>
-                <select>
                     <?php
-                            $dateMin = date('d-m-Y');
-                            $dateMax = mktime(0, 0, 0, date("d")+7,   date("m"),   date("Y"));
+                            $dateMin = date('Y-m-d');
+                            $dateMax = date('Y-m-d', strtotime("+1 week"));
+                            
                             echo "<input name='date' type='date' value='".$dateMin."' min='".$dateMin."' max='".$dateMax."'>";
-                            echo $dateMin;
-                            echo $dateMax;
                     ?>
-                </select><br><br><br>
-                    
+                <br><br><br>
                 
                 <label for="message">Justification : </label><br>
                 <input type="text" name="Commentaire" placeholder="OUI" id="message"><br><br><br>
 
-                <input type="submit" value="Valider la Réservation">
-                //return BOOKING
+                
+                <?php
+                    $statement=$db -> prepare("SELECT * FROM BOOKING"
+                                            . " INNER JOIN ACCESS ON BOOKING.idRoom = ACCESS.idRoom"
+                                            . " INNER JOIN CLASS ON ACCOUNT.idClass = CLASS.idClass");
+                    $statement -> execute();
+                        if ($row['idRoom'] == $row['idClass']){
+                            $row['isAllowed'] = 1;
+                        } else {
+                            $row['isAllowed'] = 0;
+                        }
+                
+                
+                    $statement=$db -> prepare("INSERT INTO BOOKING ('isAllowed', 'isKeyOwner', 'idAccount', 'idTimeSlot', 'idRoom', 'date', 'commentaire')"
+                                            . "VALUES ('".$isAllowed."', '".$isKeyOwner."', '".$account."', '".$timeSlot."' '".$room."', '".$date."', '".$comment."')");
+                    $statement -> execute();
+                    
+                    echo "<input name='valider' type='submit' value='".$db."'>Valider ma réservation";
+                ?>
             </aside>
         </form>
         </div>
@@ -62,11 +90,11 @@ include_once 'bdd.php';
          
             
         <div class="col-6 container">
-            <h1>VOS INSCRIPTION</h1><br><br><br><br>  
+            <br><br><h1>VOS INSCRIPTION</h1><br><br><br><br>  
         <section>
             
             
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">Salle</th>
@@ -77,13 +105,27 @@ include_once 'bdd.php';
                 </tr>
                 </thead>
                 
-                <tr>
-                    <td></td>
-                    <td>16h-18h</td>
-                    <td>22/11/2019</td>
-                    <td>Oui</td>
-                    <td><button>Se Désinscrire</button></td>
-                </tr>
+                <?php
+                        $statement=$db -> prepare("SELECT * FROM BOOKING INNER JOIN ROOM ON BOOKING.idBooking = ROOM.idRoom"
+                                            . " INNER JOIN TIMESLOT ON BOOKING.idTimeSlot = TIMESLOT.idTimeSlot");
+                        
+                        $statement -> execute();
+
+                        while($row = $statement->fetch()) {
+                            echo "<tr><td>".$row['name']."</td>";
+                            echo "<td>".$row['start']." - ".$row['end']."</td>";
+                            echo "<td>".$row['date']."</td>";
+                            
+                            if ($row['isKeyOwner'] == 1){
+                                $row['isKeyOwner']="Oui";
+                            } else {
+                                $row['isKeyOwner']="Non";
+                            }
+                            
+                            echo "<td>".$row['isKeyOwner']."</td>";
+                            echo "<td>".'<button type="button" name="desinscrire"> Désinscription'."</td></tr>";
+                        } 
+                ?>
             </table>
         </section>
         </div>
@@ -94,3 +136,6 @@ include_once 'bdd.php';
     </body>
 </html> 
 
+<?php
+}
+?>
