@@ -14,7 +14,7 @@
             $statement -> execute();
 
             while($row = $statement->fetch()) {
-                echo "<input type='checkbox' name='classe' value='".$row['idClass']."'>".$row['shortName']." ";
+                echo "";
             } 
         ?>
         <input type="submit" value="Ajouter">
