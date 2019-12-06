@@ -1,4 +1,4 @@
-
+<!-- @author : motardx !-->
 <?php
     include_once 'head.php';
     include_once 'bdd.php';

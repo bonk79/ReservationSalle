@@ -1,3 +1,5 @@
+<!-- @author : motardx !-->
+
 <?php
 
 include_once 'head.php';
@@ -8,7 +10,9 @@ if($_SESSION['user'] != 1){
 }else {
 
 ?>
-
+<form action="http://www3.futaie.org:4281/~bonk/Pj_ReservationSalle/logout.php">
+   <button type="submit" class="btn btn-outline-danger btn-sm">Se déconnecter</button><br><br>
+</form>
 <body>
     <main class="login-form">
         <div class="row">
